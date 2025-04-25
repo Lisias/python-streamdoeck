@@ -149,3 +149,4 @@ if __name__ == "__main__":
                 t.join()
             except (TransportError, RuntimeError):
                 pass
+        break

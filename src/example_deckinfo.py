@@ -58,9 +58,14 @@ if __name__ == "__main__":
     print("Found {} Stream Deck(s).\n".format(len(streamdecks)))
 
     for index, deck in enumerate(streamdecks):
-        deck.open()
-        deck.reset()
+        print("Probing {} {}".format(index, deck))
 
-        print_deck_info(index, deck)
+        try:
+            deck.open()
+            deck.reset()
 
-        deck.close()
+            print_deck_info(index, deck)
+
+            deck.close()
+        except Exception as e:
+            print("Failure reading {} {} due {}".format(index, deck, e))
