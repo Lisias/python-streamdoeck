@@ -16,6 +16,12 @@ class Mirabox293S(Mirabox293):
     Represents a physically attached Mirabox Stream Dock 293S device.
     """
 
+    KEY_PIXEL_WIDTH = 85
+    KEY_PIXEL_HEIGHT = 85
+    KEY_IMAGE_FORMAT = "JPEG"
+    KEY_FLIP = (False, False)
+    KEY_ROTATION = 90
+
     SECONDARY_IMAGE_COLS = 1
     SECONDARY_IMAGE_ROWS = 3
     SECONDARY_IMAGE_COUNT = SECONDARY_IMAGE_ROWS * SECONDARY_IMAGE_COLS
@@ -27,10 +33,12 @@ class Mirabox293S(Mirabox293):
     SECONDARY_IMAGE_ROTATION = 90
 
     SCREEN_PIXEL_WIDTH = 854
+    SCREEN_FLIP = (True, False)
+    SCREEN_ROTATION = 0
 
     DECK_TYPE = "Mirabox Stream Dock 293S"
     DECK_VISUAL = True
-    DECK_TOUCH = False # kind of... it could be used for the side display.
+    DECK_TOUCH = False  # kind of... it could be used for the side display.
 
     # the side display uses key ids 0x10, 0x11, 0x12 with 80x80 images.
     SECONDARY_IMAGE_NUM_TO_DEVICE_KEY_ID = [0x10, 0x11, 0x12]

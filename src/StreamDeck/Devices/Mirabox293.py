@@ -18,17 +18,17 @@ class Mirabox293(Mirabox):
     KEY_ROWS = 3
     KEY_COUNT = KEY_COLS * KEY_ROWS
 
-    KEY_PIXEL_WIDTH = 85 # TODO: check if this is the correct value
-    KEY_PIXEL_HEIGHT = 85 # TODO: check if this is the correct value
+    KEY_PIXEL_WIDTH = 100
+    KEY_PIXEL_HEIGHT = 100
     KEY_IMAGE_FORMAT = "JPEG"
     KEY_FLIP = (False, False)
-    KEY_ROTATION = 90
+    KEY_ROTATION = 180
 
     SCREEN_PIXEL_WIDTH = 800
     SCREEN_PIXEL_HEIGHT = 480
     SCREEN_IMAGE_FORMAT = "JPEG"
-    SCREEN_FLIP = (True, False)
-    SCREEN_ROTATION = 0
+    SCREEN_FLIP = (False, False)
+    SCREEN_ROTATION = 180
 
     DECK_TYPE = "Mirabox Stream Dock 293"
     DECK_VISUAL = True
@@ -47,12 +47,6 @@ class Mirabox293(Mirabox):
 
         # see note in _read_control_states() method.
         self._key_triggered_last_read = False
-
-    def _convert_key_num_to_device_key_id(self, key):
-        return self.KEY_NUM_TO_DEVICE_KEY_ID[key]
-
-    def _convert_device_key_id_to_key_num(self, key):
-        return self.KEY_DEVICE_KEY_ID_TO_NUM[key]
 
     def _read_control_states(self):
         states = [False] * self.KEY_COUNT
@@ -74,13 +68,19 @@ class Mirabox293(Mirabox):
                 return None
 
             states[triggered_key] = True
-            self._key_triggered_last_read = True
-        else:
-            self._key_triggered_last_read = False
+
+        self._key_triggered_last_read = not self._key_triggered_last_read
 
         return {
             ControlType.KEY: states
         }
+
+    def set_key_image(self, key, image):
+        if min(max(key, 0), self.KEY_COUNT) != key:
+            raise IndexError("Invalid key index {}.".format(key))
+
+        key = self.KEY_NUM_TO_DEVICE_KEY_ID[key]
+        self._set_raw_key_image(key, image)
 
     def set_secondary_image(self, key, image):
        pass

@@ -31,8 +31,9 @@ Currently the following products are supported in multiple hardware variants:
 	+ StreamDeck Plus
 	+ StreamDeck XL
 * Mirabox
-	+ Mirabox 293
-	+ Mirabox 293S
+	+ StreamDock 293
+	+ StreamDock 293S
+	+ StreamDock N3
 
 
 ## Package Installation:
