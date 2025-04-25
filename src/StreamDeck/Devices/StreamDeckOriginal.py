@@ -1,5 +1,5 @@
 #         Python Stream Deck Library
-#      Released under the MIT license
+#      Released under the GPLv2 license
 #
 #   dean [at] fourwalledcubicle [dot] com
 #         www.fourwalledcubicle.com

@@ -97,4 +97,4 @@ list above, please let me know.
 
 ## License:
 
-Released under the [MIT license](LICENSE).
+Released under the [GPLv2 license](./LICENSE).
