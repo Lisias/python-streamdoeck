@@ -6,7 +6,6 @@
 #    * https://github.com/core447
 #    * https://github.com/abcminiuser
 #    * dean [at] fourwalledcubicle [dot] com
-#
 
 import threading
 import time
@@ -62,6 +61,16 @@ class StreamDeck(ABC):
     KEY_IMAGE_FORMAT = ""
     KEY_FLIP = (False, False)
     KEY_ROTATION = 0
+
+    SECONDARY_IMAGE_COUNT = 0
+    SECONDARY_IMAGE_COLS = 0
+    SECONDARY_IMAGE_ROWS = 0
+
+    SECONDARY_IMAGE_PIXEL_WIDTH = 0
+    SECONDARY_IMAGE_PIXEL_HEIGHT = 0
+    SECONDARY_IMAGE_IMAGE_FORMAT = ""
+    SECONDARY_IMAGE = (False, False)
+    SECONDARY_IMAGE_ROTATION = 0
 
     TOUCHSCREEN_PIXEL_WIDTH = 0
     TOUCHSCREEN_PIXEL_HEIGHT = 0
@@ -375,6 +384,15 @@ class StreamDeck(ABC):
         """
         return self.TOUCH_KEY_COUNT
 
+    def secondary_image_count(self):
+        """
+        Retrieves number of touch buttons on the attached StreamDeck device.
+
+        :rtype: int
+        :return: Number of touch buttons.
+        """
+        return self.SECONDARY_IMAGE_COUNT
+
     def dial_count(self):
         """
         Retrieves number of physical dials on the attached StreamDeck device.
@@ -437,6 +455,34 @@ class StreamDeck(ABC):
             'format': self.KEY_IMAGE_FORMAT,
             'flip': self.KEY_FLIP,
             'rotation': self.KEY_ROTATION,
+        }
+
+    def secondary_image_layout(self):
+        """
+        Retrieves the secondary image layout on the attached StreamDock device.
+
+        :rtype: (int, int)
+        :return (rows, columns): Number of button rows and columns.
+        """
+        return self.KEY_ROWS, self.KEY_COLS
+
+    def secondary_image_format(self):
+        """
+        Retrieves the image format accepted by the attached StreamDock device.
+        Images should be given in this format when setting an image on a button.
+
+        .. seealso:: See :func:`~StreamDeck.set_secondary_image` method to update the
+                     image displayed on a StreamDock button.
+
+        :rtype: dict()
+        :return: Dictionary describing the various image parameters
+                 (size, image format, image mirroring and rotation).
+        """
+        return {
+            'size': (self.SECONDARY_IMAGE_PIXEL_WIDTH, self.SECONDARY_IMAGE_PIXEL_HEIGHT),
+            'format': self.SECONDARY_IMAGE_IMAGE_FORMAT,
+            'flip': self.SECONDARY_IMAGE_FLIP,
+            'rotation': self.SECONDARY_IMAGE_ROTATION,
         }
 
     def touchscreen_image_format(self):
@@ -693,6 +739,23 @@ class StreamDeck(ABC):
         enumerable collection of bytes.
 
         .. seealso:: See :func:`~StreamDeck.key_image_format` method for
+                     information on the image format accepted by the device.
+
+        :param int key: Index of the button whose image is to be updated.
+        :param enumerable image: Raw data of the image to set on the button.
+                                 If `None`, the key will be cleared to a black
+                                 color.
+        """
+        pass
+
+    @abstractmethod
+    def set_secondary_image(self, key, image):
+        """
+        Sets the image of a secondary image on the attached StreamDock. The
+        image being set should be in the correct format for the device, as an
+        enumerable collection of bytes.
+
+        .. seealso:: See :func:`~StreamDeck.secondary_image_format` method for
                      information on the image format accepted by the device.
 
         :param int key: Index of the button whose image is to be updated.

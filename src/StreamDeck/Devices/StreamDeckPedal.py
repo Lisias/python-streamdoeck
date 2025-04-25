@@ -6,7 +6,6 @@
 #    * https://github.com/core447
 #    * https://github.com/abcminiuser
 #    * dean [at] fourwalledcubicle [dot] com
-#
 
 from .StreamDeck import StreamDeck, ControlType
 
@@ -51,6 +50,9 @@ class StreamDeckPedal(StreamDeck):
         return self._extract_string(version[6:])
 
     def set_key_image(self, key, image):
+        pass
+
+    def set_secondary_image(self, key, image):
         pass
 
     def set_touchscreen_image(self, image, x_pos=0, y_pos=0, width=0, height=0):

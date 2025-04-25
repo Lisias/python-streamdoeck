@@ -6,7 +6,6 @@
 #    * https://github.com/core447
 #    * https://github.com/abcminiuser
 #    * dean [at] fourwalledcubicle [dot] com
-#
 
 from .StreamDeck import StreamDeck, ControlType
 
@@ -125,6 +124,9 @@ class StreamDeckOriginal(StreamDeck):
 
             bytes_remaining = bytes_remaining - this_length
             page_number = page_number + 1
+
+    def set_secondary_image(self, key, image):
+        pass
 
     def set_touchscreen_image(self, image, x_pos=0, y_pos=0, width=0, height=0):
         pass
