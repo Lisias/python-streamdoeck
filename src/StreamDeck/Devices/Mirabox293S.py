@@ -1,11 +1,11 @@
-#         Python Stream Deck Library
-#      Released under the MIT license
+#         Python Stream Doeck Library
+#      Released under the GPLv2 licence
 #
-#   dean [at] fourwalledcubicle [dot] com
-#         www.fourwalledcubicle.com
+#  Authors:
+#    * Lisias T (https://github.com/lisias)
+#    * Renato Schmidt (github.com/rescbr)
 #
-#   Mirabox Stream Dock 293S non-official support 
-#   by Renato Schmidt (github.com/rescbr)
+#   Mirabox Stream Dock 293S non-official support
 
 from .StreamDeck import StreamDeck, ControlType
 

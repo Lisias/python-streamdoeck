@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#         Python Stream Deck Library
+#         Python Stream Doeck Library
 #      Released under the GPLv2 license
 #
 #

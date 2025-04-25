@@ -46,9 +46,9 @@ source_suffix = ['.rst']
 master_doc = 'index'
 
 # General information about the project.
-project = 'python-elgato-streamdeck'
-copyright = '2023, Dean Camera'
-author = 'Dean Camera'
+project = 'python-streamdoeck'
+copyright = '2025, LisiasT'
+author = 'LisiasT'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

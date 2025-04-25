@@ -7,12 +7,12 @@ with open("README.md", 'r') as f:
     long_description = f.read()
 
 setuptools.setup(
-   name='streamcontroller-streamdeck',
+   name='python-streamdoeck',
    version=version,
-   description='Library to control Elgato StreamDeck devices.',
-   author='Core447',
-   author_email='core447@proton.me',
-   url='https://github.com/StreamController/sc-python-elgato-streamdeck',
+   description='Library to control Elgato StreamDeck and Mirabox StreamDock devices.',
+   author='Lisias',
+   author_email='projects@lisias.net',
+   url='https://github.com/lisias/python-streamdoeck',
    package_dir={'': 'src'},
    packages=setuptools.find_packages(where='src'),
    install_requires=[],

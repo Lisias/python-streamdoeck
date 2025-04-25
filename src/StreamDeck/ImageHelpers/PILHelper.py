@@ -1,8 +1,11 @@
-#         Python Stream Deck Library
+#         Python Stream Doeck Library
 #      Released under the GPLv2 license
 #
-#   dean [at] fourwalledcubicle [dot] com
-#         www.fourwalledcubicle.com
+#  Authors:
+#    * Lisias T (https://github.com/lisias)
+#    * https://github.com/core447
+#    * https://github.com/abcminiuser
+#    * dean [at] fourwalledcubicle [dot] com
 #
 
 import io

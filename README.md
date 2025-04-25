@@ -1,98 +1,58 @@
-# Python Elgato Stream Deck Library
+# Python Stream Doeck Library
 
 ![Example Deck](ExampleDeck.jpg)
 
-This is an open source Python 3 library to control an
-[Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck) directly,
-without the official software. This can allow you to create your own custom
-front-ends, such as a custom control front-end for home automation software.
+This is an open source Python 3 library to control both [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck) as well the [Mirabox](https://miraboxbuy.com/collections/stream-dock) knock offs (and some exclusives) directly, without the official software. This can allow you to create your own custom front-ends, such as a custom control front-end for home automation software.
 
 > [!NOTE]  
-> This is a fork of [abcminiuser/python-elgato-streamdeck](https://github.com/abcminiuser/python-elgato-streamdeck) targeted at [StreamController](https://github.com/StreamController/StreamController).
+> This is a fork of [StreamController/streamcontroller-python-elgato-streamdeck](https://github.com/StreamController/streamcontroller-python-elgato-streamdeck), that on its turn it's a form from [StreamController](https://github.com/StreamController/StreamController).
 
-_________________
+## Why "Doeck" ?
 
-[PyPi Project Entry](https://pypi.org/project/streamdeck/) - [Online Documentation](https://python-elgato-streamdeck.readthedocs.io) - [Source Code](https://github.com/abcminiuser/python-elgato-streamdeck)
+Because it supports both Elgato's Stream D**e**ck and Mirabox's Stream D**o**ck - I was tempted to name this "Stream Dick Library" (since "i" would be the middle ground between "e" and "o"), but Common Sense© prevailed. 😅
 
 
 ## Project Status:
 
-Working - you can enumerate devices, set the brightness of the panel(s), set
-the images shown on each button, and read the current button states.
+Working:
 
-Currently the following StreamDeck products are supported in multiple hardware
-variants:
+* you can enumerate devices
+* set the brightness of the panel(s)
+* set the images shown on each button
+* and read the current button states.
 
-* StreamDeck Mini
-* StreamDeck Neo
-* StreamDeck Original
-* StreamDeck Pedal
-* StreamDeck Plus
-* StreamDeck XL
+Currently the following products are supported in multiple hardware variants:
+
+* Elgato
+	+ StreamDeck Mini
+	+ StreamDeck Neo
+	+ StreamDeck Original
+	+ StreamDeck Pedal
+	+ StreamDeck Plus
+	+ StreamDeck XL
+
 
 ## Package Installation:
 
-Install the library via pip:
+<!-- Install the library via pip:
 
 ```
 pip install streamdeck
 ```
+-->
 
 Alternatively, manually clone the project repository:
 
 ```
-git clone https://github.com/abcminiuser/python-elgato-streamdeck.git
+git clone https://github.com/Lisias/python-streamdoeck.git
 ```
 
-For detailed installation instructions, refer to the prebuilt
-[online documentation](https://python-elgato-streamdeck.readthedocs.io), or
-build the documentation yourself locally by running `make html` from the `docs`
-directory.
+For detailed installation instructions, build the documentation yourself locally by running `make html` from the `docs` directory.
 
 
 ## Credits:
 
-I've used the reverse engineering notes from
-[this GitHub](https://github.com/alvancamp/node-elgato-stream-deck/blob/master/NOTES.md)
-repository to implement this library. Thanks Alex Van Camp!
-
-Thank you to the following contributors, large and small, for helping with the
-development and maintenance of this library:
-
-- [admiral0](https://github.com/admiral0)
-- [Aetherdyne](https://github.com/Aetherdyne)
-- [benedikt-bartscher](https://github.com/benedikt-bartscher)
-- [brimston3](https://github.com/brimston3)
-- [BS-Tek](https://github.com/BS-Tek)
-- [Core447](https://github.com/Core447)
-- [dirkk0](https://github.com/dirkk0)
-- [dodgyrabbit](https://github.com/dodgyrabbit)
-- [dubstech](https://github.com/dubstech)
-- [Giraut](https://github.com/Giraut)
-- [impala454](https://github.com/impala454)
-- [iPhoneAddict](https://github.com/iPhoneAddict)
-- [itsusony](https://github.com/itsusony)
-- [jakobbuis](https://github.com/jakobbuis)
-- [jmudge14](https://github.com/jmudge14)
-- [Kalle-Wirsch](https://github.com/Kalle-Wirsch)
-- [karstlok](https://github.com/karstlok)
-- [Lewiscowles1986](https://github.com/Lewiscowles1986)
-- [m-weigand](https://github.com/m-weigand)
-- [matrixinius](https://github.com/matrixinius)
-- [phillco](https://github.com/phillco)
-- [pointshader](https://github.com/pointshader)
-- [shanna](https://github.com/shanna)
-- [spidererrol](https://github.com/Spidererrol)
-- [spyoungtech](https://github.com/spyoungtech)
-- [Subsentient](https://github.com/Subsentient)
-- [swedishmike](https://github.com/swedishmike)
-- [TheSchmidt](https://github.com/TheSchmidt)
-- [theslimshaney](https://github.com/theslimshaney)
-- [tjemg](https://github.com/tjemg)
-- [VladFlorinIlie](https://github.com/VladFlorinIlie)
-
-If you've contributed in some manner, but I've accidentally missed you in the
-list above, please let me know.
+See [Contributors](./CONTRIBUTORS.md) for details.
 
 
 ## License:

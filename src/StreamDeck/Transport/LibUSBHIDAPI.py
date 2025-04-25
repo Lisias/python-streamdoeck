@@ -1,8 +1,11 @@
-#         Python Stream Deck Library
+#         Python Stream Doeck Library
 #      Released under the GPLv2 license
 #
-#   dean [at] fourwalledcubicle [dot] com
-#         www.fourwalledcubicle.com
+#  Authors:
+#    * Lisias T (https://github.com/lisias)
+#    * https://github.com/core447
+#    * https://github.com/abcminiuser
+#    * dean [at] fourwalledcubicle [dot] com
 #
 
 import atexit
@@ -431,7 +434,7 @@ class LibUSBHIDAPI(Transport):
 
         def product_id(self):
             return self.device_info['product_id']
-        
+
         def serial_number(self):
             return self.device_info['serial_number']
 
@@ -445,7 +448,7 @@ class LibUSBHIDAPI(Transport):
         def read_feature(self, report_id, length):
             with self.mutex:
                 return self.hidapi.get_feature_report(self.device_handle, report_id, length)
-        
+
         def read_input(self, report_id, length):
             with self.mutex:
                 return self.hidapi.get_input_report(self.device_handle, report_id, length)
