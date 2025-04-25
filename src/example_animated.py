@@ -97,15 +97,20 @@ if __name__ == "__main__":
             create_animation_frames(deck.key_image_format(), "RGB_color_space_animated_view.gif"),
             create_animation_frames(deck.key_image_format(), "Simple_CV_Joint_animated.gif"),
         ]
+        animations_secondary = [
+            create_animation_frames(deck.secondary_image_format(), "Elephant_Walking_animated.gif"),
+            create_animation_frames(deck.secondary_image_format(), "RGB_color_space_animated_view.gif"),
+            create_animation_frames(deck.secondary_image_format(), "Simple_CV_Joint_animated.gif"),
+        ] if deck.secondary_image_count() > 0 else []
         print("Ready.")
 
         # Create a mapping of StreamDeck keys to animation image sets that will
         # be displayed.
         key_images = dict()
-        for k in range(deck.key_count()):
+        for k in range(deck.key_count()+deck.secondary_image_count()):
             # Each key gets an infinite cycle generator bound to the animation
             # frames, so it will loop the animated sequence forever.
-            key_images[k] = itertools.cycle(animations[k % len(animations)])
+            key_images[k] = itertools.cycle(animations[k % len(animations)]) if k < deck.key_count() else itertools.cycle(animations_secondary[k % len(animations_secondary)])
 
         # Helper function that will run a periodic loop which updates the
         # images on each key.
@@ -134,7 +139,7 @@ if __name__ == "__main__":
                     with deck:
                         # Update the key images with the next animation frame.
                         for key, frames in key_images.items():
-                            deck.set_key_image(key, next(frames))
+                            (deck.set_key_image if key < deck.key_count() else deck.set_secondary_image)(key%deck.key_count(), next(frames))
                 except TransportError as err:
                     print("TransportError: {0}".format(err))
                     # Something went wrong while communicating with the device
