@@ -9,6 +9,7 @@
 #
 
 from StreamDeck.Devices.StreamDeck import StreamDeck
+
 from .Devices.StreamDeckMini import StreamDeckMini
 from .Devices.StreamDeckNeo import StreamDeckNeo
 from .Devices.StreamDeckOriginal import StreamDeckOriginal
@@ -16,7 +17,10 @@ from .Devices.StreamDeckOriginalV2 import StreamDeckOriginalV2
 from .Devices.StreamDeckXL import StreamDeckXL
 from .Devices.StreamDeckPedal import StreamDeckPedal
 from .Devices.StreamDeckPlus import StreamDeckPlus
+
+from .Devices.Mirabox293 import Mirabox293
 from .Devices.Mirabox293S import Mirabox293S
+
 from .Transport.Dummy import Dummy
 from .Transport.LibUSBHIDAPI import LibUSBHIDAPI
 from .ProductIDs import USBVendorIDs, USBProductIDs
@@ -109,7 +113,9 @@ class DeviceManager:
             (USBVendorIDs.USB_VID_ELGATO, USBProductIDs.USB_PID_STREAMDECK_MINI_MK2, StreamDeckMini),
             (USBVendorIDs.USB_VID_ELGATO, USBProductIDs.USB_PID_STREAMDECK_XL_V2, StreamDeckXL),
             (USBVendorIDs.USB_VID_ELGATO, USBProductIDs.USB_PID_STREAMDECK_PLUS, StreamDeckPlus),
-            (USBVendorIDs.USB_VID_MIRABOX, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_293S, Mirabox293S)
+
+            (USBVendorIDs.USB_VID_MIRABOX_293, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_293, Mirabox293),
+            (USBVendorIDs.USB_VID_MIRABOX_293S, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_293S, Mirabox293S)
         ]
 
         streamdecks = list()
