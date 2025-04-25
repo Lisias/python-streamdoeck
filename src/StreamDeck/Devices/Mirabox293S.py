@@ -35,6 +35,9 @@ class Mirabox293S(Mirabox293):
     # the side display uses key ids 0x10, 0x11, 0x12 with 80x80 images.
     SECONDARY_IMAGE_NUM_TO_DEVICE_KEY_ID = [0x10, 0x11, 0x12]
 
+    def __init__(self, device):
+        super().__init__(device)
+
     def _convert_key_num_to_device_key_id(self, key):
         return self.KEY_NUM_TO_DEVICE_KEY_ID[key]
 

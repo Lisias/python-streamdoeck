@@ -41,11 +41,46 @@ class Mirabox293(Mirabox):
                             ]
     KEY_DEVICE_KEY_ID_TO_NUM = {value: index for index, value in enumerate(KEY_NUM_TO_DEVICE_KEY_ID)}
 
+
+    def __init__(self, device):
+        super().__init__(device)
+
+        # see note in _read_control_states() method.
+        self._key_triggered_last_read = False
+
     def _convert_key_num_to_device_key_id(self, key):
         return self.KEY_NUM_TO_DEVICE_KEY_ID[key]
 
     def _convert_device_key_id_to_key_num(self, key):
         return self.KEY_DEVICE_KEY_ID_TO_NUM[key]
+
+    def _read_control_states(self):
+        states = [False] * self.KEY_COUNT
+
+        # _key_triggered_last_read exists since 293S only triggers an HID event when a button is released.
+        # there are no key down and key up events, so we have to simulate the key being pressed and released.
+        # if a firmware upgrade that supports key down/up events is released, this variable can be removed from the code.
+
+        if not self._key_triggered_last_read:
+            device_input_data = self.device.read(self.PACKET_LENGHT)
+            if device_input_data is None:
+                return None
+
+            if(device_input_data.startswith(bytes([0x41, 0x43, 0x4b, 0x00, 0x00, 0x4f, 0x4b, 0x00]))): # ACK\0\0OK\0
+                triggered_raw_key = int.from_bytes(device_input_data[9:10], 'big', signed=False)
+                triggered_key = self._convert_device_key_id_to_key_num(int.from_bytes(device_input_data[9:10], 'big', signed=False))
+            else:
+                # we don't know how to handle the response
+                return None
+
+            states[triggered_key] = True
+            self._key_triggered_last_read = True
+        else:
+            self._key_triggered_last_read = False
+
+        return {
+            ControlType.KEY: states
+        }
 
     def set_secondary_image(self, key, image):
        pass
