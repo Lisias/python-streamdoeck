@@ -35,6 +35,8 @@ Currently the following products are supported in multiple hardware variants:
 	+ StreamDock 293S
 	+ StreamDock N3
 
+See [known issues](./KNOWN_ISSUES.md) for further information.
+
 
 ## Package Installation:
 
