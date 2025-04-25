@@ -36,7 +36,7 @@ FRAMES_PER_SECOND = 30
 # Loads in a source image, extracts out the individual animation frames (if
 # any) and returns a list of animation frames in the StreamDeck device's
 # native image format.
-def create_animation_frames(deck, image_filename):
+def create_animation_frames(image_format, image_filename):
     icon_frames = list()
 
     # Open the source image asset.
@@ -45,11 +45,11 @@ def create_animation_frames(deck, image_filename):
     # Iterate through each animation frame of the source image
     for frame in ImageSequence.Iterator(icon):
         # Create new key image of the correct dimensions, black background.
-        frame_image = PILHelper.create_scaled_key_image(deck, frame)
+        frame_image = PILHelper.create_scaled_image(image_format, frame)
 
         # Pre-convert the generated image to the native format of the StreamDeck
         # so we don't need to keep converting it when showing it on the device.
-        native_frame_image = PILHelper.to_native_key_format(deck, frame_image)
+        native_frame_image = PILHelper.to_native_format(image_format, frame_image)
 
         # Store the rendered animation frame for later user.
         icon_frames.append(native_frame_image)
@@ -93,9 +93,9 @@ if __name__ == "__main__":
         # native display format so that they can be quickly sent to the device.
         print("Loading animations...")
         animations = [
-            create_animation_frames(deck, "Elephant_Walking_animated.gif"),
-            create_animation_frames(deck, "RGB_color_space_animated_view.gif"),
-            create_animation_frames(deck, "Simple_CV_Joint_animated.gif"),
+            create_animation_frames(deck.key_image_format(), "Elephant_Walking_animated.gif"),
+            create_animation_frames(deck.key_image_format(), "RGB_color_space_animated_view.gif"),
+            create_animation_frames(deck.key_image_format(), "Simple_CV_Joint_animated.gif"),
         ]
         print("Ready.")
 
