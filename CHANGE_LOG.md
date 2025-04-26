@@ -1,5 +1,9 @@
 # Python Stream Doeck Library :: CHANGE LOG
 
+* 2025-0425: Version 1.0.0 (Lisias)
+	- Added support for Mirabox Stream Dock 293 (untested, but it should work)
+	- Implemented "Secondary Images" into `SteamDeck` abstract class, allowing proper support for this 293S feature.
+	- Updated some examples. 
 * 2025-0323: Version 0.1.4 (Core744)
 	- No change log provided
 * 2025-0329: Version 0.1.3 (Core744)

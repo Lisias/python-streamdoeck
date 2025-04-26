@@ -30,6 +30,9 @@ Currently the following products are supported in multiple hardware variants:
 	+ StreamDeck Pedal
 	+ StreamDeck Plus
 	+ StreamDeck XL
+* Mirabox
+	+ Mirabox 293
+	+ Mirabox 293S
 
 
 ## Package Installation:
