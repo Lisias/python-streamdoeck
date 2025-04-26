@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
         # Load and resize a source image so that it will fill the given
         # StreamDeck.
-        image = create_full_deck_sized_image(deck, key_spacing, "Harold.jpg")
+        image = create_full_deck_sized_image(deck, key_spacing, "s66-25782.jpg")
 
         print("Created full deck image size of {}x{} pixels.".format(image.width, image.height))
 
