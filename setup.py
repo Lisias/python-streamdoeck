@@ -12,7 +12,7 @@ setuptools.setup(
    description='Library to control Elgato StreamDeck and Mirabox StreamDock devices.',
    author='Lisias',
    author_email='projects@lisias.net',
-   url='https://github.com/lisias/python-streamdoeck',
+   url='https://github.com/StreamDoeck/python-streamdoeck',
    package_dir={'': 'src'},
    packages=setuptools.find_packages(where='src'),
    install_requires=[],
