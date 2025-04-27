@@ -18,6 +18,7 @@ Index
     :caption: Installation and Setup
 
     pages/installation.rst
+    pages/blank.rst
 
 
 .. toctree::
@@ -41,6 +42,7 @@ Index
     examples/neo.rst
     examples/tiled.rst
     examples/animated.rst
+    examples/change_boot_image.rst
 
 
 .. toctree::
@@ -49,6 +51,7 @@ Index
     pages/source.rst
     pages/changelog.rst
     pages/license.rst
+    ../../NOTICE
 
 
 ##################
