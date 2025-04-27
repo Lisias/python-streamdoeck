@@ -6,6 +6,7 @@
 #
 #  Mirabox Stream Dock N3 non-official support
 
+from ..ImageHelpers import ImageTools
 from .StreamDeck import StreamDeck, ControlType, DialEventType
 from .Mirabox import Mirabox
 
@@ -39,6 +40,8 @@ class MiraboxN3(Mirabox):
     DECK_TYPE = "Mirabox Stream Dock N3"
     DECK_VISUAL = True
     DECK_TOUCH = False
+
+    BLANK_KEY_IMAGE = ImageTools.load_asset("black-64x64.jpg")
 
     KEY_NUM_TO_DEVICE_KEY_ID = [
                                     0x01, 0x02, 0x03
@@ -120,6 +123,7 @@ class MiraboxN3(Mirabox):
             raise IndexError("Invalid key index {}.".format(key))
 
         key = self.KEY_NUM_TO_DEVICE_KEY_ID[key]
+        image = bytes(image or self.BLANK_KEY_IMAGE)
         self._set_raw_key_image(key, image)
 
     def set_secondary_image(self, key, image):
