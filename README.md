@@ -1,4 +1,4 @@
-# Python Stream Doeck Library
+# Python Stream Döck Library
 
 <img src="./doc/imgs/ExampleDeck.jpg" height="250"/> <img src="./doc/imgs/Mirabox-263S.jpg" height="250"/>
 
