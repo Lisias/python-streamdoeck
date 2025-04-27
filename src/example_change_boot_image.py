@@ -12,7 +12,7 @@
 
 # Example script showing how to set up the LOGO image
 
-import os
+import sys
 import threading
 
 from StreamDeck.DeviceManager import DeviceManager
@@ -38,6 +38,16 @@ if __name__ == "__main__":
     streamdecks = DeviceManager().enumerate()
 
     print("Found {} Stream Deck(s).\n".format(len(streamdecks)))
+
+    print("This program permanently changes the device's boot screen (when possible)")
+    print("and so it was found safer to prevent it from being ran by accident -")
+    print("unless you have a copy of the original boot screen, the change **IS NOT**")
+    print("reversible!")
+    print("")
+    print("Remove or comment the `sys.exit` instruction you will find below these")
+    print("`print` instructions to run it. You can upload any image you want,")
+    print("by the way, as long the file format it's support by `pillow`.")
+    sys.exit(0)
 
     for index, deck in enumerate(streamdecks):
         # This example only works with devices that have screens.
