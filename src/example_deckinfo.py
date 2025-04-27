@@ -33,6 +33,12 @@ def print_deck_info(index, deck):
         deck.key_count(),
         deck.key_layout()[0],
         deck.key_layout()[1]))
+    if deck.touch_key_count() > 0:
+        print("\t - Touch Key Count: {}".format(deck.touch_key_count()))
+    if deck.dial_count() > 0:
+        print("\t - Dial Count: {}".format(deck.dial_count()))
+    if deck.secondary_image_count() > 0:
+        print("\t - Secondary Image Count: {}".format(deck.secondary_image_count()))
     if deck.is_visual():
         print("\t - Key Images: {}x{} pixels, {} format, rotated {} degrees, {}".format(
             key_image_format['size'][0],
