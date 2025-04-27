@@ -14,6 +14,8 @@ class Mirabox293(Mirabox):
     Represents a physically attached Mirabox Stream Dock 293 device.
     """
 
+    OUTPUT_PACKET_LENGHT = 512
+
     KEY_COLS = 5
     KEY_ROWS = 3
     KEY_COUNT = KEY_COLS * KEY_ROWS
@@ -39,7 +41,7 @@ class Mirabox293(Mirabox):
                                 ,   0x0e, 0x0b, 0x08, 0x05, 0x02
                                 ,   0x0f, 0x0c, 0x09, 0x06, 0x03
                             ]
-    KEY_DEVICE_KEY_ID_TO_NUM = {value: index for index, value in enumerate(KEY_NUM_TO_DEVICE_KEY_ID)}
+    DEVICE_KEY_ID_TO_KEY_NUM = {value: index for index, value in enumerate(KEY_NUM_TO_DEVICE_KEY_ID)}
 
 
     def __init__(self, device):
@@ -56,13 +58,13 @@ class Mirabox293(Mirabox):
         # if a firmware upgrade that supports key down/up events is released, this variable can be removed from the code.
 
         if not self._key_triggered_last_read:
-            device_input_data = self.device.read(self.PACKET_LENGHT)
+            device_input_data = self.device.read(self.INPUT_PACKET_LENGHT)
             if device_input_data is None:
                 return None
 
-            if(device_input_data.startswith(bytes([0x41, 0x43, 0x4b, 0x00, 0x00, 0x4f, 0x4b, 0x00]))): # ACK\0\0OK\0
+            if(device_input_data.startswith(Mirabox.ACK_OK)):
                 triggered_raw_key = int.from_bytes(device_input_data[9:10], 'big', signed=False)
-                triggered_key = self._convert_device_key_id_to_key_num(int.from_bytes(device_input_data[9:10], 'big', signed=False))
+                triggered_key = self.DEVICE_KEY_ID_TO_KEY_NUM[triggered_raw_key]
             else:
                 # we don't know how to handle the response
                 return None

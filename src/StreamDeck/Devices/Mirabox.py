@@ -15,7 +15,7 @@ class Mirabox(StreamDeck):
     Abstract class for Mirabox Stream Dock devices.
     """
 
-    PACKET_LENGHT = 512
+    INPUT_PACKET_LENGHT = 512
 
     # 72 x 72 black JPEG
     BLANK_KEY_IMAGE = [
@@ -59,12 +59,23 @@ class Mirabox(StreamDeck):
         0xa0, 0x02, 0x8a, 0x28, 0xa0, 0x02, 0x8a, 0x28, 0xa0, 0x02, 0x8a, 0x28, 0xa0, 0x02, 0x8a, 0x28, 0xa0, 0x02, 0x8a,
         0x28, 0xa0, 0x0f, 0xff, 0xd9
     ]
+    CMD_PREFIX = bytes([0x43, 0x52, 0x54, 0x00, 0x00])              # CRT\0\0
+    CRT_CONNECT = bytes([0x43, 0x4f, 0x4e, 0x4e, 0x45, 0x43, 0x54]) # CRT\0\0CONNECT
+    CRT_LIG = bytes([0x4c, 0x49, 0x47, 0x00, 0x00])                 # CRT\0\0LIG 0x00 0x00 <PERCENT>
+    CRT_CLE = bytes([0x43, 0x4c, 0x45, 0x00, 0x00, 0x00])           # CRT\0\0CLE 0x00 0x00 0x00 <KEY ID | 0xff for all>
+    CRT_DIS = bytes([0x44, 0x49, 0x53])                             # CRT\0\0DIS
+    CRT_BAT = bytes([0x42, 0x41, 0x54, 0x00, 0x00])                 # CRT\0\0BAT 0x00 0x00 <image size uint16_be> <key id>
+    CRT_STP = bytes([0x53, 0x54, 0x50])                             # CRT\0\0STP
+    CRT_LOG = bytes([0x4c, 0x4f, 0x47])                             # CRT\0\0LOG <image size uint32_be> <screen id>
+    CRT_CLOSE = bytes([0x43, 0x4c, 0x45, 0x00, 0x44, 0x43])         # CRT\0\0CLE 0x00 0x00 0x44 0x43
+    CRT_HANG = bytes([0x48, 0x41, 0x4e])                            # CRT\0\0HAN
+    ACK_OK = bytes([0x41, 0x43, 0x4b, 0x00, 0x00, 0x4f, 0x4b, 0x00])    # ACK\0\0OK\0
 
     def __init__(self, device):
         super().__init__(device)
 
     def _make_payload_for_report_id(self, report_id, payload_data):
-        payload = bytearray(self.PACKET_LENGHT + 1)
+        payload = bytearray(self.OUTPUT_PACKET_LENGHT + 1)
         payload[0] = report_id
         payload[1:len(payload_data)] = payload_data
         return payload
@@ -73,17 +84,23 @@ class Mirabox(StreamDeck):
         self.reset()
 
     def reset(self):
-        # disconnect # CRT\0\0DIS
-        payload = self._make_payload_for_report_id(0x00, [0x43, 0x52, 0x54, 0x00, 0x00, 0x44, 0x49, 0x53])
+        # disconnect
+        payload = self._make_payload_for_report_id(0x00, Mirabox.CMD_PREFIX + Mirabox.CRT_DIS)
         self.device.write(payload)
 
-        # connect/ping # CRT\0\0CONNECT
-        payload = self._make_payload_for_report_id(0x00, [0x43, 0x52, 0x54, 0x00, 0x00, 0x43, 0x4f, 0x4e, 0x4e, 0x45, 0x43, 0x54])
+        # connect/ping
+        payload = self._make_payload_for_report_id(0x00, Mirabox.CMD_PREFIX + Mirabox.CRT_CONNECT)
         self.device.write(payload)
 
-        # clear contents # CRT\0\0CLE #0x00 0x00 0x00 <KEY ID | 0xff for all>
-        payload = self._make_payload_for_report_id(0x00, [0x43, 0x52, 0x54, 0x00, 0x00, 0x43, 0x4c, 0x45, 0x00, 0x00, 0x00, 0xff])
+        # clear contents
+        payload = self._make_payload_for_report_id(0x00, Mirabox.CMD_PREFIX + Mirabox.CRT_CLE + bytes([0xff]))
         self.device.write(payload)
+
+    def close(self):
+        payload = self._make_payload_for_report_id(0x00, Mirabox.CMD_PREFIX + Mirabox.CRT_CLOSE)
+        self.device.write(payload)
+        payload = self._make_payload_for_report_id(0x00, Mirabox.CMD_PREFIX + Mirabox.CRT_HANG)
+        super().close()
 
     def set_brightness(self, percent):
         if isinstance(percent, float):
@@ -91,24 +108,23 @@ class Mirabox(StreamDeck):
 
         percent = min(max(percent, 0), 100)
 
-        # set brightness # CRT\0\0LIG #0x00 0x00 <PERCENT> 0x00
-        payload = self._make_payload_for_report_id(0x00, [0x43, 0x52, 0x54, 0x00, 0x00, 0x4c, 0x49, 0x47, 0x00, 0x00, percent, 0x00])
+        # set brightness
+        payload = self._make_payload_for_report_id(0x00, Mirabox.CMD_PREFIX + Mirabox.CRT_LIG + bytes([percent]))
         self.device.write(payload)
 
     def get_serial_number(self):
         return self.device.serial_number()
 
     def get_firmware_version(self):
-        version = self.device.read_input(0x00, self.PACKET_LENGHT + 1)
+        version = self.device.read_input(0x00, self.OUTPUT_PACKET_LENGHT + 1)
         return self._extract_string(version[1:])
 
     def _set_raw_key_image(self, key, image):
-        image = bytes(image or self.BLANK_KEY_IMAGE)
-        image_payload_page_length = self.PACKET_LENGHT
+        image_payload_page_length = self.OUTPUT_PACKET_LENGHT
         image_size_uint16_be = int.to_bytes(len(image), 2, 'big', signed=False)
 
-        # start batch # CRT\0\0BAT #0x00 0x00 <image size uint16_be> <key id>
-        command = bytes([0x43, 0x52, 0x54, 0x00, 0x00, 0x42, 0x41, 0x54, 0x00, 0x00]) + image_size_uint16_be +  bytes([key])
+        # start batch
+        command = Mirabox.CMD_PREFIX + Mirabox.CRT_BAT + image_size_uint16_be + bytes([key])
         payload = self._make_payload_for_report_id(0x00, command)
         self.device.write(payload)
 
@@ -125,8 +141,8 @@ class Mirabox(StreamDeck):
             bytes_remaining = bytes_remaining - this_length
             page_number = page_number + 1
 
-        # stop batch # CRT\0\0STP
-        payload = self._make_payload_for_report_id(0x00, [0x43, 0x52, 0x54, 0x00, 0x00, 0x53, 0x54, 0x50])
+        # stop batch
+        payload = self._make_payload_for_report_id(0x00, Mirabox.CMD_PREFIX + Mirabox.CRT_STP)
         self.device.write(payload)
 
     def set_touchscreen_image(self, image, x_pos=0, y_pos=0, width=0, height=0):
