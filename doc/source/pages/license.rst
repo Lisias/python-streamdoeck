@@ -2,6 +2,6 @@
 License
 *******
 
-Released under the MIT license below.
+Released under the GPLv2 license below.
 
 .. literalinclude:: ../../../LICENSE
