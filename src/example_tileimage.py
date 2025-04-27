@@ -19,7 +19,7 @@ import threading
 
 from PIL import Image, ImageOps
 from StreamDeck.DeviceManager import DeviceManager
-from StreamDeck.ImageHelpers import PILHelper
+from StreamDeck.ImageHelpers import NativeImageHelper
 from StreamDeck.Transport.Transport import TransportError
 
 # Folder location of image assets used by this example.
@@ -79,10 +79,10 @@ def crop_key_image_from_deck_sized_image(deck, image, key_spacing, key):
 
     # Create a new key-sized image, and paste in the cropped section of the
     # larger image.
-    key_image = PILHelper.create_key_image(deck)
+    key_image = NativeImageHelper.create_key_image(deck)
     key_image.paste(segment)
 
-    return PILHelper.to_native_key_format(deck, key_image)
+    return NativeImageHelper.to_native_key_format(deck, key_image)
 
 
 # Closes the StreamDeck device on key state change.

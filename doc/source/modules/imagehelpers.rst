@@ -3,9 +3,9 @@ Modules: Image Helpers
 **********************
 
 ================
-PIL Image Helper
+Native Image Helper
 ================
 
-.. automodule:: StreamDeck.ImageHelpers.PILHelper
+.. automodule:: StreamDeck.ImageHelpers.NativeImageHelper
    :members:
    :show-inheritance:

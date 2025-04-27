@@ -23,7 +23,7 @@ import time
 from fractions import Fraction
 from PIL import Image, ImageSequence
 from StreamDeck.DeviceManager import DeviceManager
-from StreamDeck.ImageHelpers import PILHelper
+from StreamDeck.ImageHelpers import NativeImageHelper
 from StreamDeck.Transport.Transport import TransportError
 
 # Folder location of image assets used by this example.
@@ -45,11 +45,11 @@ def create_animation_frames(image_format, image_filename):
     # Iterate through each animation frame of the source image
     for frame in ImageSequence.Iterator(icon):
         # Create new key image of the correct dimensions, black background.
-        frame_image = PILHelper.create_scaled_image(image_format, frame)
+        frame_image = NativeImageHelper.create_scaled_image(image_format, frame)
 
         # Pre-convert the generated image to the native format of the StreamDeck
         # so we don't need to keep converting it when showing it on the device.
-        native_frame_image = PILHelper.to_native_format(image_format, frame_image)
+        native_frame_image = NativeImageHelper.to_native_format(image_format, frame_image)
 
         # Store the rendered animation frame for later user.
         icon_frames.append(native_frame_image)

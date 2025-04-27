@@ -19,7 +19,7 @@ import random
 
 from PIL import Image, ImageDraw, ImageFont
 from StreamDeck.DeviceManager import DeviceManager
-from StreamDeck.ImageHelpers import PILHelper
+from StreamDeck.ImageHelpers import NativeImageHelper
 from StreamDeck.Transport.Transport import TransportError
 
 # Folder location of image assets used by this example.
@@ -33,7 +33,7 @@ def render_key_image(deck, icon_filename, font_filename, label_text):
     # leaving a margin at the bottom so that we can draw the key title
     # afterwards.
     icon = Image.open(icon_filename)
-    image = PILHelper.create_scaled_key_image(deck, icon, margins=[0, 0, 20, 0])
+    image = NativeImageHelper.create_scaled_key_image(deck, icon, margins=[0, 0, 20, 0])
 
     # Load a custom TrueType font and use it to overlay the key index, draw key
     # label onto the image a few pixels from the bottom of the key.
@@ -41,18 +41,18 @@ def render_key_image(deck, icon_filename, font_filename, label_text):
     font = ImageFont.truetype(font_filename, 14)
     draw.text((image.width / 2, image.height - 5), text=label_text, font=font, anchor="ms", fill="white")
 
-    return PILHelper.to_native_key_format(deck, image)
+    return NativeImageHelper.to_native_key_format(deck, image)
 
 
 # Generate an image for the screen
 def render_screen_image(deck, font_filename, text):
-    image = PILHelper.create_screen_image(deck)
+    image = NativeImageHelper.create_screen_image(deck)
     # Load a custom TrueType font and use it to create an image
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype(font_filename, 20)
     draw.text((image.width / 2, image.height - 25), text=text, font=font, anchor="ms", fill="white")
 
-    return PILHelper.to_native_screen_format(deck, image)
+    return NativeImageHelper.to_native_screen_format(deck, image)
 
 
 # Returns styling information for a key based on its position and state.
