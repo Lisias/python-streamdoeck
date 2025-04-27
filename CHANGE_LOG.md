@@ -1,5 +1,12 @@
 # Python Stream Döck Library :: CHANGE LOG
 
+* 2025-0427: Version 1.0.1 (Lisias)
+	+ Implements the change boot feature on Mirabox devices
+		- Tested only on 293S
+	+ Heavy refactorings to promote code reuse and eaiser maintenance and expansion
+		- AJAZZ devices appears to be a low hanging fruit once Mirabox ones are implemented.
+	+ Some `Assets` changes
+		- I'm a dog person. :)
 * 2025-0425: Version 1.0.0 (Lisias)
 	+ Added support for Mirabox Stream Dock 293 (untested, but it should work)
 	+ Implemented "Secondary Images" into `SteamDeck` abstract class, allowing proper support for this 293S feature.
