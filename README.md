@@ -1,6 +1,6 @@
 # Python Stream Doeck Library
 
-![Example Deck](ExampleDeck.jpg)
+<img src="./doc/imgs/ExampleDeck.jpg" height="250"/> <img src="./doc/imgs/Mirabox-263S.jpg" height="250"/>
 
 This is an open source Python 3 library to control both [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck) as well the [Mirabox Stream Dock](https://miraboxbuy.com/collections/stream-dock) knock offs (and some exclusives) directly, without the official software. This can allow you to create your own custom front-ends, such as a custom control front-end for home automation software.
 
