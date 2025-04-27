@@ -118,6 +118,12 @@ class MiraboxN3(Mirabox):
         # we don't know how to handle the response
         return None
 
+    def reset(self):
+        super().reset()
+        # flush. Needed for V2 Miraboxes
+        payload = self._make_payload_for_report_id(0x00, Mirabox.CMD_PREFIX + Mirabox.CRT_STP)
+        self.device.write(payload)
+
     def set_key_image(self, key, image):
         if min(max(key, 0), self.KEY_COUNT) != key:
             raise IndexError("Invalid key index {}.".format(key))
