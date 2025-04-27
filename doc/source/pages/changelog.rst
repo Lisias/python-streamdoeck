@@ -2,4 +2,4 @@
 Changelog
 *********
 
-.. include:: ../../../CHANGELOG
+.. include:: ../../../CHANGE_LOG.md

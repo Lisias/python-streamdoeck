@@ -2,8 +2,9 @@
 Library Installation
 ********************
 
-To install this library via the `pip` package manager, simply run
-``pip install streamdeck`` from a terminal.
+To install this library via the `pip` package manager, checkout the repository
+by running ``git clone StreamDoeck/python-streamdoeck`` and then run
+``pip install .`` from a terminal.
 
 The included examples require the PIL fork `pillow`, although it can be
 swapped out if desired by the user application for any other image manipulation

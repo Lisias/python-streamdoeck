@@ -1,4 +1,4 @@
-# Python Stream Doeck Library :: CHANGE LOG
+# Python Stream Döck Library :: CHANGE LOG
 
 * 2025-0425: Version 1.0.0 (Lisias)
 	+ Added support for Mirabox Stream Dock 293 (untested, but it should work)
