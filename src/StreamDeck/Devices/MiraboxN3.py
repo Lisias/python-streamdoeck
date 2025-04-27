@@ -128,3 +128,6 @@ class MiraboxN3(Mirabox):
 
     def set_secondary_image(self, key, image):
         pass
+
+    def set_screen_image(self, image):
+        raise NotImplemented("Since I don't own this device, I can't test this feature. So I decided to prevent it from being used by default!")

@@ -109,5 +109,32 @@ class Mirabox(StreamDeck):
     def set_key_color(self, key, r, g, b):
         pass
 
-    def set_screen_image(self, image):
-        pass
+    def _set_screen_image(self, image:bytes):
+        image_payload_page_length = self.OUTPUT_PACKET_LENGHT
+        image_size_uint32_be = int.to_bytes(len(image), 4, 'big', signed=False)
+
+        # start logo
+        command = Mirabox.CMD_PREFIX + Mirabox.CRT_LOG + image_size_uint32_be + bytes([1])
+        payload = self._make_payload_for_report_id(0x00, command)
+        self.device.write(payload)
+
+        page_number = 0
+        bytes_remaining = len(image)
+        while bytes_remaining > 0:
+            this_length = min(bytes_remaining, image_payload_page_length)
+            bytes_sent = page_number * image_payload_page_length
+
+            #send data
+            payload = self._make_payload_for_report_id(0x00, image[bytes_sent:bytes_sent + this_length])
+            self.device.write(payload)
+
+            bytes_remaining = bytes_remaining - this_length
+            page_number = page_number + 1
+
+        # stop batch
+        payload = self._make_payload_for_report_id(0x00, Mirabox.CMD_PREFIX + Mirabox.CRT_STP)
+        self.device.write(payload)
+
+        device_input_data = self.device.read(self.INPUT_PACKET_LENGHT)
+        if(device_input_data and not device_input_data.startswith(Mirabox.ACK_OK)):
+            raise IOError("set_screen_image failed.")

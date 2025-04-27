@@ -30,7 +30,7 @@ def adjust_image(image, image_format) -> Image:
         image = scale_image(image, image_format)
 
     if image_format['rotation']:
-        image = image.rotate(image_format['rotation'])
+        image = image.rotate(image_format['rotation'], expand=1)
 
     if image_format['flip'][0]:
         image = image.transpose(Image.FLIP_LEFT_RIGHT)
@@ -38,7 +38,7 @@ def adjust_image(image, image_format) -> Image:
     if image_format['flip'][1]:
         image = image.transpose(Image.FLIP_TOP_BOTTOM)
 
-    return image
+    return image.convert("RGB")
 
 def scale_image(image, image_format, margins=[0, 0, 0, 0], background='black') -> Image:
     if len(margins) != 4:
@@ -57,4 +57,4 @@ def scale_image(image, image_format, margins=[0, 0, 0, 0], background='black') -
 
     final_image.paste(thumbnail, (thumbnail_x, thumbnail_y), thumbnail)
 
-    return final_image
+    return final_image.convert("RGB")

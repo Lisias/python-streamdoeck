@@ -4,6 +4,12 @@
 
 The original author ([abcminiuser](https://github.com/abcminiuser) used the reverse engineering notes from [this GitHub](https://github.com/alvancamp/node-elgato-stream-deck/blob/master/NOTES.md) repository to implement this library. Thanks Alex Van Camp!
 
+Further information and cross checking were possible thanks to the projects:
+
+* [bitfocus/companion](https://github.com/bitfocus/companion/blob/main/companion/lib/Surface/USB/MiraboxStreamDock.ts)
+* [rigor789/mirabox-streamdock-node](https://github.com/rigor789/mirabox-streamdock-node/blob/main/src/streamdock.ts)
+* [streamduck-org/elgato-streamdeck](https://github.com/streamduck-org/elgato-streamdeck/blob/main/src/lib.rs)
+
 Thank you to the following contributors, large and small, for helping with the
 development and maintenance of this library:
 

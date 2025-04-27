@@ -9,6 +9,7 @@
 
 from ..ImageHelpers import ImageTools
 from .StreamDeck import StreamDeck, ControlType
+from .Mirabox import Mirabox
 from .Mirabox293 import Mirabox293
 
 
@@ -36,8 +37,8 @@ class Mirabox293S(Mirabox293):
     SECONDARY_IMAGE_ROTATION = 90
 
     SCREEN_PIXEL_WIDTH = 854
-    SCREEN_FLIP = (True, False)
-    SCREEN_ROTATION = 0
+    SCREEN_FLIP = (False, False)
+    SCREEN_ROTATION = 90
 
     DECK_TYPE = "Mirabox Stream Dock 293S"
     DECK_VISUAL = True
@@ -67,3 +68,9 @@ class Mirabox293S(Mirabox293):
         image = bytes(image or self.BLANK_SECONDARY_IMAGE)
         key = self.SECONDARY_IMAGE_NUM_TO_DEVICE_KEY_ID[key]
         self._set_raw_key_image(key, image)
+
+    def set_screen_image(self, image:bytes):
+        image = bytearray(image)
+        for i in range(0, len(image), 3):
+            (image[i], image[i + 2]) = (image[i + 2], image[i])
+        self._set_screen_image(image)
