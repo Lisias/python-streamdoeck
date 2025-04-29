@@ -5,7 +5,7 @@
 This is an open source Python 3 library to control both [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck) as well the [Mirabox Stream Dock](https://miraboxbuy.com/collections/stream-dock) knock offs (and some exclusives) directly, without the official software. This can allow you to create your own custom front-ends, such as a custom control front-end for home automation software.
 
 > [!NOTE]  
-> This is a fork of [StreamController/streamcontroller-python-elgato-streamdeck](https://github.com/StreamController/streamcontroller-python-elgato-streamdeck), that on its turn it's a form from [StreamController](https://github.com/StreamController/StreamController).
+> This is a fork of [StreamController/streamcontroller-python-elgato-streamdeck](https://github.com/StreamController/streamcontroller-python-elgato-streamdeck), that on its turn it's a form from [abcminiuser/python-elgato-streamdeck](https://github.com/https://github.com/abcminiuser/python-elgato-streamdeck).
 
 ## Why "Doeck" ?
 

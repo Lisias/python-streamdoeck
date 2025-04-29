@@ -7,9 +7,9 @@ About
 
 This is an open source Python 3 library to control an `Elgato Stream Deck
 <https://www.elgato.com/en/gaming/stream-deck>`_ directly, as well Mirabox
-ones, without the official software. This can allow you to create your own
-custom front-ends, such as a custom control front-end for home automation
-software.
+<https://mirabox.key123.vip/>`_ones, without the official software. This
+can allow you to create your own custom front-ends, such as a custom control
+front-end for home automation software.
 
 #####
 Index
