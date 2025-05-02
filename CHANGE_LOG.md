@@ -1,4 +1,4 @@
-# Python Stream Döck Library :: CHANGE LOG
+# Python Stream Doeck Library :: CHANGE LOG
 
 * 2025-0427: Version 1.0.1 (Lisias)
 	+ Implements the change boot feature on Mirabox devices

@@ -1,4 +1,4 @@
-# Python Stream Döck Library
+# Python Stream Doeck Library
 
 ## Contributors
 
