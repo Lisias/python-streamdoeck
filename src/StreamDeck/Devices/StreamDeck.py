@@ -43,6 +43,7 @@ class ControlType(Enum):
     KEY = 1
     DIAL = 2
     TOUCHSCREEN = 3
+    TOUCH_KEY = 4
 
 
 class StreamDeck(ABC):
@@ -186,6 +187,12 @@ class StreamDeck(ABC):
                         if self.key_callback is not None:
                             self.key_callback(self, k, new)
 
+                elif ControlType.TOUCH_KEY in control_states:
+                    k = control_states[ControlType.TOUCH_KEY].index(True)
+                    if self.key_callback is not None:
+                        self.key_callback(self, k, True)
+                        self.key_callback(self, k, False)
+
                 elif ControlType.DIAL in control_states:
                     if DialEventType.PUSH in control_states[ControlType.DIAL]:
                         for k, (old, new) in enumerate(zip(self.last_dial_states, control_states[ControlType.DIAL][DialEventType.PUSH])):
@@ -231,6 +238,13 @@ class StreamDeck(ABC):
                         if old != new:
                             self.last_key_states[k] = new
                             self.key_callback(self, k, new)
+
+                elif ControlType.TOUCH_KEY in control_states and self.key_callback is not None:
+                    k = control_states[ControlType.TOUCH_KEY].index(True)
+                    if self.key_callback is not None:
+                        self.key_callback(self, k, True)
+                        self.key_callback(self, k, False)
+
 
                 elif ControlType.DIAL in control_states and self.dial_callback is not None:
                     if DialEventType.PUSH in control_states[ControlType.DIAL]:
