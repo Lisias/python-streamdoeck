@@ -21,6 +21,7 @@ from .Devices.StreamDeckPlus import StreamDeckPlus
 from .Devices.Mirabox293 import Mirabox293
 from .Devices.Mirabox293S import Mirabox293S
 from .Devices.MiraboxN3 import MiraboxN3
+from .Devices.MiraboxN4 import MiraboxN4
 
 from .Transport.Dummy import Dummy
 from .Transport.LibUSBHIDAPI import LibUSBHIDAPI
@@ -117,7 +118,9 @@ class DeviceManager:
 
             (USBVendorIDs.USB_VID_MIRABOX_0, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_293, Mirabox293),
             (USBVendorIDs.USB_VID_MIRABOX_1, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_293S, Mirabox293S),
+            (USBVendorIDs.USB_VID_MIRABOX_2, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_N4, MiraboxN4),
             (USBVendorIDs.USB_VID_MIRABOX_3, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_N3, MiraboxN3),
+            (USBVendorIDs.USB_VID_MIRABOX_3, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_N4EN, MiraboxN4),
         ]
 
         streamdecks = list()
