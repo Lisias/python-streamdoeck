@@ -14,6 +14,7 @@ import os
 import threading
 
 from PIL import Image, ImageDraw, ImageFont
+from StreamDeck.DeviceManager import StreamDeck as StreamDeckObject
 from StreamDeck.DeviceManager import DeviceManager
 from StreamDeck.ImageHelpers import NativeImageHelper
 from StreamDeck.Transport.Transport import TransportError
@@ -114,6 +115,27 @@ def dial_change_callback(deck, dial, event, state):
     print("Deck {} Dial {} Event {} = {}".format(deck.id(), dial, event, state), flush=True)
 
 
+def do_deck(deck:StreamDeckObject):
+    deck.open()
+    deck.reset()
+
+    print("Opened '{}' device (serial number: '{}', fw: '{}') at {}".format(
+        deck.deck_type(), deck.get_serial_number(), deck.get_firmware_version(),
+        deck.device.path
+    ))
+
+    # Set initial screen brightness to 30%.
+    deck.set_brightness(30)
+
+    # Set initial key images.
+    for key in range(deck.key_count()):
+        update_key_image(deck, key, False)
+
+    # Register callback function for when a key state changes.
+    deck.set_key_callback(key_change_callback)
+    deck.set_dial_callback(dial_change_callback)
+
+
 if __name__ == "__main__":
     streamdecks = DeviceManager().enumerate()
 
@@ -124,29 +146,18 @@ if __name__ == "__main__":
         if not deck.is_visual():
             continue
 
-        deck.open()
-        deck.reset()
+        try:
+            do_deck(deck)
+        except Exception as e:
+            print("{} {}".format(deck, e))
+            continue
 
-        print("Opened '{}' device (serial number: '{}', fw: '{}')".format(
-            deck.deck_type(), deck.get_serial_number(), deck.get_firmware_version()
-        ))
+    print("Ready.")
 
-        # Set initial screen brightness to 30%.
-        deck.set_brightness(30)
-
-        # Set initial key images.
-        for key in range(deck.key_count()):
-            update_key_image(deck, key, False)
-
-        # Register callback function for when a key state changes.
-        deck.set_key_callback(key_change_callback)
-        deck.set_dial_callback(dial_change_callback)
-
-        # Wait until all application threads have terminated (for this example,
-        # this is when all deck handles are closed).
-        for t in threading.enumerate():
-            try:
-                t.join()
-            except (TransportError, RuntimeError):
-                pass
-        break
+    # Wait until all application threads have terminated (for this example,
+    # this is when all deck handles are closed).
+    for t in threading.enumerate():
+        try:
+            t.join()
+        except (TransportError, RuntimeError):
+            pass

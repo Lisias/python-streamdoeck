@@ -18,6 +18,7 @@ import os
 import threading
 
 from PIL import Image, ImageOps
+from StreamDeck.DeviceManager import StreamDeck as StreamDeckObject
 from StreamDeck.DeviceManager import DeviceManager
 from StreamDeck.ImageHelpers import NativeImageHelper
 from StreamDeck.Transport.Transport import TransportError
@@ -99,6 +100,44 @@ def key_change_callback(deck, key, state):
         deck.close()
 
 
+def do_deck(deck:StreamDeckObject):
+    deck.open()
+    deck.reset()
+
+    print("Opened '{}' device (serial number: '{}')".format(deck.deck_type(), deck.get_serial_number()))
+
+    # Set initial screen brightness to 30%.
+    deck.set_brightness(30)
+
+    # Approximate number of (non-visible) pixels between each key, so we can
+    # take those into account when cutting up the image to show on the keys.
+    key_spacing = (36, 36)
+
+    # Load and resize a source image so that it will fill the given
+    # StreamDeck.
+    image = create_full_deck_sized_image(deck, key_spacing, "s66-25782.jpg")
+
+    print("Created full deck image size of {}x{} pixels.".format(image.width, image.height))
+
+    # Extract out the section of the image that is occupied by each key.
+    key_images = dict()
+    for k in range(deck.key_count()):
+        key_images[k] = crop_key_image_from_deck_sized_image(deck, image, key_spacing, k)
+
+    # Use a scoped-with on the deck to ensure we're the only thread
+    # using it right now.
+    with deck:
+        # Draw the individual key images to each of the keys.
+        for k in range(deck.key_count()):
+            key_image = key_images[k]
+
+            # Show the section of the main image onto the key.
+            deck.set_key_image(k, key_image)
+
+    # Register callback function for when a key state changes.
+    deck.set_key_callback(key_change_callback)
+
+
 if __name__ == "__main__":
     streamdecks = DeviceManager().enumerate()
 
@@ -109,46 +148,18 @@ if __name__ == "__main__":
         if not deck.is_visual():
             continue
 
-        deck.open()
-        deck.reset()
+        try:
+            do_deck(deck)
+        except Exception as e:
+            print("{} {}".format(deck, e))
+            continue
 
-        print("Opened '{}' device (serial number: '{}')".format(deck.deck_type(), deck.get_serial_number()))
+    print("Ready.")
 
-        # Set initial screen brightness to 30%.
-        deck.set_brightness(30)
-
-        # Approximate number of (non-visible) pixels between each key, so we can
-        # take those into account when cutting up the image to show on the keys.
-        key_spacing = (36, 36)
-
-        # Load and resize a source image so that it will fill the given
-        # StreamDeck.
-        image = create_full_deck_sized_image(deck, key_spacing, "s66-25782.jpg")
-
-        print("Created full deck image size of {}x{} pixels.".format(image.width, image.height))
-
-        # Extract out the section of the image that is occupied by each key.
-        key_images = dict()
-        for k in range(deck.key_count()):
-            key_images[k] = crop_key_image_from_deck_sized_image(deck, image, key_spacing, k)
-
-        # Use a scoped-with on the deck to ensure we're the only thread
-        # using it right now.
-        with deck:
-            # Draw the individual key images to each of the keys.
-            for k in range(deck.key_count()):
-                key_image = key_images[k]
-
-                # Show the section of the main image onto the key.
-                deck.set_key_image(k, key_image)
-
-        # Register callback function for when a key state changes.
-        deck.set_key_callback(key_change_callback)
-
-        # Wait until all application threads have terminated (for this example,
-        # this is when all deck handles are closed).
-        for t in threading.enumerate():
-            try:
-                t.join()
-            except (TransportError, RuntimeError):
-                pass
+    # Wait until all application threads have terminated (for this example,
+    # this is when all deck handles are closed).
+    for t in threading.enumerate():
+        try:
+            t.join()
+        except (TransportError, RuntimeError):
+            pass
