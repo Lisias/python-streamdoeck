@@ -227,7 +227,7 @@ class LibUSBHIDAPI(Transport):
                 handle = self.hidapi.hid_open_path(path)
 
                 if not handle:
-                    raise TransportError("Could not open HID device.")
+                    raise TransportError("Could not open HID device at {}.".format(path))
 
                 self.hidapi.hid_set_nonblocking(handle, 1)
 
@@ -460,6 +460,12 @@ class LibUSBHIDAPI(Transport):
         def read(self, length):
             with self.mutex:
                 return self.hidapi.read(self.device_handle, length)
+
+        def __str__(self):
+            return "{}:{},{},{}".format(self.path(), self.vendor_id(), self.product_id(), self.serial_number())
+
+        def __repr__(self):
+            return "Device(path={}, vendor_id={}, product_id={}, S/N={})".format(self.path(), self.vendor_id(), self.product_id(), self.serial_number())
 
     @staticmethod
     def probe():
