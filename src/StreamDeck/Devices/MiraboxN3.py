@@ -62,33 +62,27 @@ class MiraboxN3(Mirabox):
     def __init__(self, device):
         super().__init__(device)
 
-        # see note in _read_control_states() method.
-        self._key_triggered_last_read = False
-
     def _read_control_states(self):
         device_input_data = self.device.read(self.INPUT_PACKET_LENGHT)
         if device_input_data is None:
             return None
 
         if(device_input_data.startswith(Mirabox.ACK_OK)):
-            triggered_raw_key = int.from_bytes(device_input_data[9:10], 'big', signed=False)
+            triggered_raw_key = device_input_data[9]
+            triggered_state = device_input_data[10]
 
             if triggered_raw_key in self.KEY_NUM_TO_DEVICE_KEY_ID:
                 states = [False] * (self.KEY_COUNT + self.TOUCH_KEY_COUNT)
-                if not self._key_triggered_last_read:
-                    triggered_key = self.KEY_DEVICE_ID_TO_KEY_NUM[triggered_raw_key]
-                    states[triggered_key] = True
-                self._key_triggered_last_read = not self._key_triggered_last_read
+                triggered_key = self.KEY_DEVICE_ID_TO_KEY_NUM[triggered_raw_key]
+                states[triggered_key] = 1 == triggered_state
                 return {
                     ControlType.KEY: states,
                 }
 
             elif triggered_raw_key in self.DIAL_NUM_PUSH_TO_DEVICE_KEY_ID:
                 states = [False] * self.DIAL_COUNT
-                if not self._key_triggered_last_read:
-                    triggered_key = self.KEY_DEVICE_ID_TO_DIAL_PUSH_NUM[triggered_raw_key]
-                    states[triggered_key] = True
-                self._key_triggered_last_read = not self._key_triggered_last_read
+                triggered_key = self.KEY_DEVICE_ID_TO_DIAL_PUSH_NUM[triggered_raw_key]
+                states[triggered_key] = 1 == triggered_state
                 return {
                     ControlType.DIAL: {
                         DialEventType.PUSH : states
@@ -136,4 +130,4 @@ class MiraboxN3(Mirabox):
         pass
 
     def set_screen_image(self, image):
-        raise NotImplemented("Since I don't own this device, I can't test this feature. So I decided to prevent it from being used by default!")
+        pass
