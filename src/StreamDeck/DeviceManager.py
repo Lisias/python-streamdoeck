@@ -115,9 +115,9 @@ class DeviceManager:
             (USBVendorIDs.USB_VID_ELGATO, USBProductIDs.USB_PID_STREAMDECK_XL_V2, StreamDeckXL),
             (USBVendorIDs.USB_VID_ELGATO, USBProductIDs.USB_PID_STREAMDECK_PLUS, StreamDeckPlus),
 
-            (USBVendorIDs.USB_VID_MIRABOX_3, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_N3, MiraboxN3),
             (USBVendorIDs.USB_VID_MIRABOX_0, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_293, Mirabox293),
-            (USBVendorIDs.USB_VID_MIRABOX_1, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_293S, Mirabox293S)
+            (USBVendorIDs.USB_VID_MIRABOX_1, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_293S, Mirabox293S),
+            (USBVendorIDs.USB_VID_MIRABOX_3, USBProductIDs.USB_PID_MIRABOX_STREAMDOCK_N3, MiraboxN3),
         ]
 
         streamdecks = list()
