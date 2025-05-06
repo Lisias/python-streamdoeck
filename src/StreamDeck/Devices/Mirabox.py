@@ -8,6 +8,7 @@
 #  Mirabox Stream Dock Generic non-official support
 
 from .StreamDeck import StreamDeck, ControlType
+import sys
 
 
 class Mirabox(StreamDeck):
@@ -16,6 +17,7 @@ class Mirabox(StreamDeck):
     """
 
     INPUT_PACKET_LENGHT = 512
+    MAX_IMAGE_SIZE = 10240
 
     CMD_PREFIX = bytes([0x43, 0x52, 0x54, 0x00, 0x00])              # CRT\0\0
     CRT_CONNECT = bytes([0x43, 0x4f, 0x4e, 0x4e, 0x45, 0x43, 0x54]) # CRT\0\0CONNECT
@@ -40,6 +42,13 @@ class Mirabox(StreamDeck):
 
     def _reset_key_stream(self):
         self.reset()
+
+    def _check_ack_ok(self, msg, *args):
+        device_input_data = self.device.read(self.INPUT_PACKET_LENGHT)
+        if(not (device_input_data and device_input_data.startswith(Mirabox.ACK_OK))):
+            msg = msg.format(*args)
+            print(msg, repr(device_input_data), file=sys.stderr)
+            raise IOError(msg)
 
     def reset(self):
         # disconnect
@@ -78,6 +87,10 @@ class Mirabox(StreamDeck):
         return self._extract_string(version[1:])
 
     def _set_raw_key_image(self, key, image):
+        image_size = len(image)
+        if image_size > self.MAX_IMAGE_SIZE:
+            raise IOError("Image bigger than max allowed size ({})".format(self.MAX_IMAGE_SIZE))
+
         image_payload_page_length = self.OUTPUT_PACKET_LENGHT
         image_size_uint16_be = int.to_bytes(len(image), 2, 'big', signed=False)
 
@@ -87,7 +100,7 @@ class Mirabox(StreamDeck):
         self.device.write(payload)
 
         page_number = 0
-        bytes_remaining = len(image)
+        bytes_remaining = image_size
         while bytes_remaining > 0:
             this_length = min(bytes_remaining, image_payload_page_length)
             bytes_sent = page_number * image_payload_page_length
@@ -135,6 +148,4 @@ class Mirabox(StreamDeck):
         payload = self._make_payload_for_report_id(0x00, Mirabox.CMD_PREFIX + Mirabox.CRT_STP)
         self.device.write(payload)
 
-        device_input_data = self.device.read(self.INPUT_PACKET_LENGHT)
-        if(device_input_data and not device_input_data.startswith(Mirabox.ACK_OK)):
-            raise IOError("set_screen_image failed.")
+        self._check_ack_ok("set_screen_image failed.")
