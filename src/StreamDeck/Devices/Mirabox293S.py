@@ -8,8 +8,6 @@
 #  Mirabox Stream Dock 293S non-official support
 
 from ..ImageHelpers import ImageTools
-from .StreamDeck import StreamDeck, ControlType
-from .Mirabox import Mirabox
 from .Mirabox293 import Mirabox293
 
 

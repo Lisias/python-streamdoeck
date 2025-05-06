@@ -59,14 +59,11 @@ class Mirabox293(Mirabox):
         # _key_triggered_last_read exists since 293S only triggers an HID event when a button is released.
         # there are no key down and key up events, so we have to simulate the key being pressed and released.
         # if a firmware upgrade that supports key down/up events is released, this variable can be removed from the code.
-
         if not self._key_triggered_last_read:
             device_input_data = self.device.read(self.INPUT_PACKET_LENGHT)
-            if device_input_data is None:
-                return None
 
-            if(device_input_data.startswith(Mirabox.ACK_OK)):
-                triggered_raw_key = int.from_bytes(device_input_data[9:10], 'big', signed=False)
+            if(device_input_data and device_input_data.startswith(Mirabox.ACK_OK)):
+                triggered_raw_key = device_input_data[9]
                 triggered_key = self.DEVICE_KEY_ID_TO_KEY_NUM[triggered_raw_key]
             else:
                 # we don't know how to handle the response

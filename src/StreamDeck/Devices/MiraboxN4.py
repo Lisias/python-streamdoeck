@@ -80,10 +80,8 @@ class MiraboxN4(Mirabox):
 
     def _read_control_states(self):
         device_input_data = self.device.read(self.INPUT_PACKET_LENGHT)
-        if device_input_data is None:
-            return None
 
-        if(device_input_data.startswith(Mirabox.ACK_OK)):
+        if(device_input_data and device_input_data.startswith(Mirabox.ACK_OK)):
             triggered_raw_key = device_input_data[9]
             triggered_state = device_input_data[10]
 
