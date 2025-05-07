@@ -1,5 +1,11 @@
 # Python Stream Doeck Library :: CHANGE LOG
 
+* 2025-0507: Version 1.0.1 (Lisias)
+	+ Added (partial at this moment) support for Mirabox N4
+		Same problem as N3, images are not being uploaded yet.
+	+ Formalising a "Touch Key" entity, with "single action" buttons (but also simulated as double action ones).
+		+ Sweep Left and Right are reconized as "buttons".
+	+ Internal optimizations and fixes
 * 2025-0427: Version 1.0.1 (Lisias)
 	+ Implements the change boot feature on Mirabox devices
 		- Tested only on 293S

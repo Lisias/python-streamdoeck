@@ -1,8 +1,18 @@
 # Python Stream Doeck Library
 
+Python Stream Doeck Library is being developed by Lisias T over previous work from the following projects:
+
+* [StreamController/streamcontroller-python-elgato-streamdeck](https://github.com/StreamController/streamcontroller-python-elgato-streamdeck/)
+* [abcminiuser/python-elgato-streamdeck](https://github.com/abcminiuser/python-elgato-streamdeck/)
+
+And it's unlikely that I would even had bought these devices without them at first place.
+
+
 ## Contributors
 
-The original author ([abcminiuser](https://github.com/abcminiuser) used the reverse engineering notes from [this GitHub](https://github.com/alvancamp/node-elgato-stream-deck/blob/master/NOTES.md) repository to implement this library. Thanks Alex Van Camp!
+The original author [abcminiuser](https://github.com/abcminiuser) used the reverse engineering notes from [this GitHub](https://github.com/alvancamp/node-elgato-stream-deck/blob/master/NOTES.md) repository to implement this library. Thanks Alex Van Camp!
+
+Additional thanks to [Core477](https://github.com/Core447) for the idea of simulating double action events (`Button Down` & `Button Up`) on Mirabox devices, as well kick starting suport for them.
 
 Further information and cross checking were possible thanks to the projects:
 
